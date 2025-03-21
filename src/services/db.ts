@@ -1,9 +1,13 @@
 import { neon } from '@neondatabase/serverless';
 
-// Cette fonction sera remplacée par la véritable connexion à Neon plus tard
+// Fonction pour obtenir une connexion à la base de données Neon
 export const getDatabase = () => {
-  // Placeholder pour l'URL de connexion Neon (à remplacer par la vraie URL)
-  const connectionString = process.env.DATABASE_URL || 'postgres://placeholder:placeholder@placeholder.neon.tech/neondb';
+  // Utiliser l'URL de connexion depuis les variables d'environnement
+  const connectionString = process.env.DATABASE_URL;
+  
+  if (!connectionString) {
+    throw new Error('DATABASE_URL n\'est pas définie dans les variables d\'environnement');
+  }
 
   // Retourne une instance de client Neon
   const db = neon(connectionString);
