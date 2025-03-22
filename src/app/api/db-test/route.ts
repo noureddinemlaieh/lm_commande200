@@ -1,17 +1,15 @@
 import { NextResponse } from 'next/server';
-import { getDatabase } from '@/services/db';
+import prisma from '@/lib/prisma';
 
 export async function GET() {
   try {
-    const db = getDatabase();
-    
-    // Tester la connexion en exécutant une requête simple
-    const result = await db`SELECT version()`;
+    // Tester la connexion en utilisant Prisma
+    const usersCount = await prisma.user.count();
     
     return NextResponse.json({
       success: true,
-      message: 'Connexion à la base de données réussie',
-      version: result[0].version
+      message: 'Connexion à la base de données via Prisma réussie',
+      usersCount: usersCount
     });
   } catch (error) {
     console.error('Erreur de connexion à la base de données:', error);
